@@ -221,47 +221,16 @@
 
 })(jQuery);
 
-var options = { width: '620', height: '378', channel: 'jstorm2594' };
-   var id = 'player-' + 'jstorm2594';
-   $('#streams').append('<div id="' + id + '"></div>');
-   var player = new Twitch.Player(id, options);
-   player.setMuted(false);
-   player.setVolume(1);
-
-   player.addEventListener(Twitch.Player.ONLINE, function () {
-    $('#event-list').append('<li style="color: darkgreen;">[' + new Date($.now()).toISOString() + '][' + 'jstorm2594' + '][VISIBLE] ONLINE</li>');
-});
-player.addEventListener(Twitch.Player.OFFLINE, function () {
-    $('#event-list').append('<li style="color: darkred;">[' + new Date($.now()).toISOString() + '][' + 'jstorm2594' + '][VISIBLE] OFFLINE</li>');
-});
-player.addEventListener(Twitch.Player.PAUSE, function () {
-    $('#event-list').append('<li style="color: darkgoldenrod;">[' + new Date($.now()).toISOString() + '][' + 'jstorm2594' + '][VISIBLE] PAUSE</li>');
-});
-player.addEventListener(Twitch.Player.ENDED, function () {
-    $('#event-list').append('<li style="color: darkred;">[' + new Date($.now()).toISOString() + '][' + 'jstorm2594' + '][VISIBLE] ENDED</li>');
-});
-player.addEventListener(Twitch.Player.PLAY, function () {
-    $('#event-list').append('<li style="color: darkgreen;">[' + new Date($.now()).toISOString() + '][' + 'jstorm2594' + '][VISIBLE] PLAY</li>');
-});
-player.addEventListener(Twitch.Player.READY, function () {
-    $('#event-list').append('<li style="color: darkgreen;">[' + new Date($.now()).toISOString() + '][' + 'jstorm2594' + '][VISIBLE] READY</li>');
+var embed = new Twitch.Embed("twitch-embed",
+{
+  width: 854,
+  height: 480,
+  channel: "jstorm2594",
+  layout: "video",
+  autoplay: false,
 });
 
-var acc = document.getElementsByClassName("accordiononly");
-var i;
-
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    /* Toggle between adding and removing the "active" class,
-    to highlight the button that controls the panel */
-    this.classList.toggle("active");
-
-    /* Toggle between hiding and showing the active panel */
-    var panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "block";
-    }
-  });
-}
+embed.addEventListener(Twitch.Embed.VIDEO_READY, () => {
+  var player = embed.getPlayer();
+  player.play();
+});
